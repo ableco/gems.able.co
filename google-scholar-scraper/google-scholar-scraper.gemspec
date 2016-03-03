@@ -1,5 +1,5 @@
 Gem::Specification.new do |spec|
-  spec.name          = "scholar-scraper"
+  spec.name          = "google-scholar-scraper"
   spec.version       = "0.0.1"
   spec.authors       = ["Able.co"]
   spec.email         = ["cesar@able.co"]
