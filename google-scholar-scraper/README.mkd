@@ -1,0 +1,13 @@
+# google-scholar-scraper
+A gem to scrape google scholar
+
+## Use
+```ruby
+search = Google::Scholar::UserSearch.new('ho9niaIAAAAJ')
+search.scrape
+```
+
+Then you can access the scraped data in this way
+```ruby
+search.scraper.articles
+```
