@@ -1,3 +1,5 @@
+require 'rest-client'
+
 module Google
   module Scholar
     class Request
@@ -33,10 +35,10 @@ module Google
       end
 
       def send
-        @time_sent = DateTime.now
-        page = Nokogiri::HTML(open(@url,
-                                "User-Agent" => self.user_agent
-                              ))
+        if ENV['QUOTAGUARDSTATIC_URL']
+          RestClient.proxy = ENV['QUOTAGUARDSTATIC_URL']
+        end
+        page = Nokogiri::HTML(RestClient.get(@url, user_agent: self.user_agent))
       end
     end
   end
