@@ -35,8 +35,8 @@ module Google
       end
 
       def send
-        if ENV['QUOTAGUARD_URL']
-          RestClient.proxy = ENV['QUOTAGUARD_URL']
+        if ENV['QUOTAGUARDSTATIC_URL']
+          RestClient.proxy = ENV['QUOTAGUARDSTATIC_URL']
         end
         page = Nokogiri::HTML(RestClient.get(@url, user_agent: self.user_agent))
       end
