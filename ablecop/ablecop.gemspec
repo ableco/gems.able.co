@@ -1,19 +1,18 @@
 # coding: utf-8
-lib = File.expand_path("../lib", __FILE__)
-$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+$LOAD_PATH.push File.expand_path("../lib", __FILE__)
 require "ablecop/version"
 
 Gem::Specification.new do |spec|
   spec.name          = "ablecop"
   spec.version       = Ablecop::VERSION
-  spec.authors       = ["Mike Potter"]
-  spec.email         = ["mike@able.co"]
+  spec.authors       = ["Able Engineering"]
+  spec.email         = ["engineering@able.co"]
   spec.summary       = ""
   spec.description   = ""
   spec.homepage      = "https://github.com/ableco/gems.able.co/able_cop"
-  spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
-  spec.bindir        = "exe"
-  spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
+  spec.files         = `git ls-files`.split("\n")
+  spec.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
+  spec.executables   = `git ls-files -- bin/*`.split("\n").map { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
   spec.add_development_dependency "bundler", "~> 1.11"

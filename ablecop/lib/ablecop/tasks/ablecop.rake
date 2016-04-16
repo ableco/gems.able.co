@@ -1,3 +1,5 @@
+require "pronto"
+
 desc "Runs ablecop automatted code review on CircleCI"
 namespace :ablecop do
   desc "Run code analysis for the current commit / pull request on CircleCI"
