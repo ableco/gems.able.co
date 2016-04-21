@@ -31,7 +31,7 @@ namespace :ablecop do
   end
 
   desc "Run code analysis between the current HEAD and master"
-  task :run_locally do
+  task :run do
     Pronto::GemNames.new.to_a.each { |gem_name| require "pronto/#{gem_name}" }
     formatter = Pronto::Formatter::TextFormatter.new
     Pronto.run("origin/master", ".", formatter)
