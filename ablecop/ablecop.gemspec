@@ -30,9 +30,6 @@ Gem::Specification.new do |spec|
   spec.add_dependency "brakeman", "~> 3.2"
   spec.add_dependency "pronto-brakeman"
 
-  # Monitor schema.rb for consistency with migrations.
-  # spec.add_dependency "pronto-rails_schema"
-
   # Fasterer will suggest some speed improvements.
   spec.add_dependency "fasterer"
   spec.add_dependency "pronto-fasterer"
@@ -40,4 +37,7 @@ Gem::Specification.new do |spec|
   # SCSS Lint is a static code analyzer based on our SCSS style guide.
   spec.add_dependency "scss_lint"
   spec.add_dependency "pronto-scss"
+
+  # Pronto runner for monitoring Rails schema.rb or structure.sql consistency.
+  spec.add_dependency "pronto-rails_schema"
 end
