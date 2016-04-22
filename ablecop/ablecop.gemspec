@@ -25,20 +25,20 @@ Gem::Specification.new do |spec|
 
   # Rubocop is a static code analyzer based on our Ruby style guide.
   spec.add_dependency "rubocop", "~> 0.39.0"
-  spec.add_dependency "pronto-rubocop"
+  spec.add_dependency "pronto-rubocop", "~> 0.6.2"
 
   # Brakeman scans for security vulenerabilities.
   spec.add_dependency "brakeman", "~> 3.2"
-  spec.add_dependency "pronto-brakeman"
+  spec.add_dependency "pronto-brakeman", "~> 0.6.0"
 
   # Fasterer will suggest some speed improvements.
-  spec.add_dependency "fasterer"
-  spec.add_dependency "pronto-fasterer"
+  spec.add_dependency "fasterer", "~> 0.3.2"
+  spec.add_dependency "pronto-fasterer", "~> 0.6.1"
 
   # SCSS Lint is a static code analyzer based on our SCSS style guide.
-  spec.add_dependency "scss_lint"
-  spec.add_dependency "pronto-scss"
+  spec.add_dependency "scss_lint", "~> 0.48.0"
+  spec.add_dependency "pronto-scss", "~> 0.6.0"
 
   # Pronto runner for monitoring Rails schema.rb or structure.sql consistency.
-  spec.add_dependency "pronto-rails_schema"
+  spec.add_dependency "pronto-rails_schema", "~> 0.6.0"
 end
