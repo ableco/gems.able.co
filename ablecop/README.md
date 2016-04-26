@@ -2,25 +2,23 @@
 
 ablecop is a collection of best practices for writing code at Able. These
 practices are reinforced on the project level through comments on commits
-and pull requests that find violations. Comments are powered by
+and pull requests that find violations.
 
 ## Installation
 
-Add this line to your application's Gemfile:
+Add this line to your application's Gemfile to both the `:development` and `:test` groups:
 
 ```ruby
-gem "ablecop"
+group :development, :test do
+  gem "ablecop"
+end
 ```
 
 And then execute:
 
     $ bundle
 
-Or install it yourself as:
-
-    $ gem install able-cop
-
-### CircleCI Usage
+## CircleCI Usage
 
 To enable CircleCI to run ablecop's checks and comment on commits with each
 push, add the following line to your project's `circle.yml`:
