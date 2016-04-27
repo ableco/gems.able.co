@@ -98,5 +98,9 @@ module Primer
         empty_directory_with_keep_file dir
       end
     end
+
+    def copy_dotfiles
+      directory("dotfiles", ".")
+    end
   end
 end

@@ -34,6 +34,7 @@ module Primer
       invoke :setup_template_view_structure
       invoke :configure_generators
       invoke :setup_test_environment
+      invoke :setup_dotfiles
       # invoke :configure_react
     end
 
@@ -75,6 +76,10 @@ module Primer
     #   say "Setting up React"
     #   # TODO
     # end
+
+    def setup_dotfiles
+      build :copy_dotfiles
+    end
 
     protected
 
