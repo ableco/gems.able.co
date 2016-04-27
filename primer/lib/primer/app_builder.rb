@@ -47,7 +47,7 @@ module Primer
       end
     end
 
-    def set_up_factory_girl_for_rspec
+    def setup_factory_girl_for_rspec
       copy_file 'factory_girl_rspec.rb', 'spec/support/factory_girl.rb'
     end
 
@@ -79,6 +79,20 @@ module Primer
 
     def configure_simple_cov_in_specs
       copy_file 'simple_cov_rspec.rb', 'spec/support/simple_cov.rb'
+    end
+
+    def setup_default_rspec_directories
+      [
+        'spec/cassettes',
+        'spec/controllers',
+        'spec/factories',
+        'spec/lib',
+        'spec/models',
+        'spec/routing',
+        'spec/views'
+      ].each do |dir|
+        empty_directory_with_keep_file dir
+      end
     end
   end
 end

@@ -50,13 +50,14 @@ module Primer
 
     def setup_test_environment
       say "Setting up test environment"
-      build :set_up_factory_girl_for_rspec
+      build :setup_factory_girl_for_rspec
       build :generate_rspec
       build :configure_rspec
       build :configure_database_cleaner_in_specs
       build :configure_shoulda_matchers_in_specs
       build :configure_action_mailer_in_specs
       build :configure_simple_cov_in_specs
+      build :setup_default_rspec_directories
     end
 
     def setup_react
