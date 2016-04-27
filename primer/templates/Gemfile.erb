@@ -8,12 +8,8 @@ gem "rails", "<%= Primer::RAILS_VERSION %>"
 # Database
 gem "pg", "~> 0.18.4"
 
-# Redis for caching
-gem "redis-rails"
-
-# SCSS for stylesheets, using the bootstrap framework
+# SCSS for stylesheets
 gem "sass-rails", "~> 5.0"
-gem "bootstrap-sass", "~> 3.3.6"
 
 # Uglifier to compress JavaScript
 gem "uglifier", "~> 2.7.2"
@@ -31,20 +27,6 @@ gem "react-rails", "~> 1.6.2"
 
 # JSON templating
 gem "jbuilder", "~> 2.4.1"
-
-# Exception tracking
-gem "sentry-raven", "~> 0.15.6"
-
-# Authentication
-gem "bcrypt", "~> 3.1.11"
-
-# Your Rails variables in your JS
-gem "gon", "~> 6.0.1"
-
-# Sidekiq for background processing
-gem "sidekiq"
-
-gem "newrelic_rpm"
 
 group :development do
   # Annotate models

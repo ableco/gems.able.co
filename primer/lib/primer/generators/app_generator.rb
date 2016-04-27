@@ -3,18 +3,47 @@ require 'rails/generators/rails/app/app_generator'
 
 module Primer
   class AppGenerator < Rails::Generators::AppGenerator
+    class_option :database, type: :string, aliases: "-d", default: "postgresql",
+      desc: "Configure for selected database (options: #{DATABASES.join("/")})"
+
+    class_option :heroku, type: :boolean, aliases: "-H", default: false,
+      desc: "Create staging and production Heroku apps"
+
+    class_option :heroku_flags, type: :string, default: "",
+      desc: "Set extra Heroku flags"
+
+    class_option :github, type: :string, aliases: "-G", default: nil,
+      desc: "Create Github repository and add remote origin pointed to repo"
+
+    class_option :skip_test_unit, type: :boolean, aliases: "-T", default: true,
+      desc: "Skip Test::Unit files"
+
+    class_option :skip_turbolinks, type: :boolean, default: true,
+      desc: "Skip turbolinks gem"
+
+    class_option :skip_bundle, type: :boolean, aliases: "-B", default: true,
+      desc: "Don't run bundle install"
+
     def finish_template
       invoke :primer_customization
       super
     end
 
     def primer_customization
-      # invoke :foo
+      invoke :setup_template_view_structure
+      invoke :configure_generators
     end
 
-    def foo
-      say 'Setting up foofoo'
-      # build :foofoo
+    def setup_template_view_structure
+      say 'Setting up template/view structure'
+      build :create_templates_directory
+      build :remove_layout_from_views
+      build :support_templates_and_views_in_application_rb
+    end
+
+    def configure_generators
+      say 'Configuring generators'
+      build :configure_generators
     end
 
     protected
