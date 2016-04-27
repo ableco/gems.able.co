@@ -9,6 +9,10 @@ module Primer
       template "Gemfile.erb", "Gemfile"
     end
 
+    def set_ruby_to_version_being_used
+      create_file '.ruby-version', "#{Primer::RUBY_VERSION}\n"
+    end
+
     def create_templates_directory
       directory 'app/views', 'app/templates'
     end

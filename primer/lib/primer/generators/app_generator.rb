@@ -30,10 +30,16 @@ module Primer
     end
 
     def primer_customization
+      invoke :customize_gemfile
       invoke :setup_template_view_structure
       invoke :configure_generators
       invoke :setup_test_environment
       # invoke :configure_react
+    end
+
+    def customize_gemfile
+      build :set_ruby_to_version_being_used
+      bundle_command 'install'
     end
 
     def setup_template_view_structure
