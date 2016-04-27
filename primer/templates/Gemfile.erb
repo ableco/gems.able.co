@@ -1,0 +1,106 @@
+source "https://rubygems.org"
+
+ruby "<%= Primer::RUBY_VERSION %>"
+
+# Rails
+gem "rails", "<%= Primer::RAILS_VERSION %>"
+
+# Database
+gem "pg", "~> 0.18.4"
+
+# Redis for caching
+gem "redis-rails"
+
+# SCSS for stylesheets, using the bootstrap framework
+gem "sass-rails", "~> 5.0"
+gem "bootstrap-sass", "~> 3.3.6"
+
+# Uglifier to compress JavaScript
+gem "uglifier", "~> 2.7.2"
+
+# jQuery
+gem "jquery-rails", "~> 4.1.1"
+
+# Underscore
+gem "underscore-rails", "~> 1.8.3"
+
+# React
+# Server-side rendering
+gem "therubyracer", "~> 0.12.2", platforms: :ruby
+gem "react-rails", "~> 1.6.2"
+
+# JSON templating
+gem "jbuilder", "~> 2.4.1"
+
+# Exception tracking
+gem "sentry-raven", "~> 0.15.6"
+
+# Authentication
+gem "bcrypt", "~> 3.1.11"
+
+# Your Rails variables in your JS
+gem "gon", "~> 6.0.1"
+
+# Sidekiq for background processing
+gem "sidekiq"
+
+gem "newrelic_rpm"
+
+group :development do
+  # Annotate models
+  gem "annotate"
+end
+
+group :test do
+  gem "shoulda-matchers", require: false
+  gem "database_cleaner"
+  gem "spring-commands-rspec"
+  gem "recursive-open-struct", "~> 1.0"
+
+  # Record and store external service calls for faster testing.
+  gem "webmock"
+  gem "vcr"
+
+  # Test formating and print instant-fail
+  gem "fuubar"
+
+  # Factories
+  gem "factory_girl_rails"
+  gem "faker"
+
+  # Test code coverage.
+  gem "simplecov", "~> 0.11", require: false
+end
+
+group :development, :test do
+  # Rspec for testing
+  gem "rspec-rails"
+
+  # Manage environment variables locally using a `.env` file.
+  gem "dotenv-rails", "~> 2.1.0"
+
+  # Keep application running in the background.
+  gem "spring"
+
+  # Call "byebug" anywhere to stop execution and get a debugger console.
+  gem "byebug"
+
+  # Time stubbing for testing time-dependent code.
+  gem "timecop", "~> 0.8"
+
+  # Enforce code style guidelines
+  gem "rubocop", "~> 0.39.0", require: false
+  gem "pronto"
+  gem "pronto-rubocop", require: false
+
+  gem "brakeman", "~> 3.2", require: false
+  gem "pronto-brakeman", require: false
+end
+
+group :production do
+  # App server
+  gem "puma", "~> 3.1.1"
+
+  # Heroku logging and assets
+  gem "rails_12factor", "~> 0.0.3"
+end
