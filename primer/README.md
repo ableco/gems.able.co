@@ -1,6 +1,6 @@
 # Primer
 Primer is a tool for quickly generating a Rails application preconfigured with
-the tools commonly used by [Able](http://able.co). It owes a _huge_
+the tools commonly used by Brickbutton. It owes a _huge_
 debt to thoughtbot's [Suspenders](https://github.com/thoughtbot/suspenders).
 
 ## Installation
