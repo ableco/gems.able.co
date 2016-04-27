@@ -35,7 +35,8 @@ module Primer
       invoke :configure_generators
       invoke :setup_test_environment
       invoke :setup_dotfiles
-      # invoke :configure_react
+      invoke :configure_react
+      invoke :outro
     end
 
     def customize_gemfile
@@ -68,7 +69,7 @@ module Primer
     end
 
     def setup_react
-      say "Setting up React"
+      # say "Setting up React"
       # TODO
     end
 
@@ -79,6 +80,10 @@ module Primer
 
     def setup_dotfiles
       build :copy_dotfiles
+    end
+
+    def outro
+      say "G8! You're primed and ready to go!"
     end
 
     protected
