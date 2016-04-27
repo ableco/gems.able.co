@@ -41,9 +41,44 @@ module Primer
       generate.assets false
       generate.erb false
       generate.view_specs false
+      generate.test_framework :rspec
     end
         RUBY
       end
+    end
+
+    def set_up_factory_girl_for_rspec
+      copy_file 'factory_girl_rspec.rb', 'spec/support/factory_girl.rb'
+    end
+
+    def generate_rspec
+      generate 'rspec:install'
+    end
+
+    def configure_rspec
+      remove_file "spec/rails_helper.rb"
+      remove_file "spec/spec_helper.rb"
+      copy_file "rails_helper.rb", "spec/rails_helper.rb"
+      copy_file "spec_helper.rb", "spec/spec_helper.rb"
+    end
+
+    def configure_database_cleaner_in_specs
+      copy_file 'database_cleaner_rspec.rb', 'spec/support/database_cleaner.rb'
+    end
+
+    def configure_shoulda_matchers_in_specs
+      copy_file(
+        "shoulda_matchers_rspec.rb",
+        "spec/support/shoulda_matchers.rb"
+      )
+    end
+
+    def configure_action_mailer_in_specs
+      copy_file 'action_mailer_rspec.rb', 'spec/support/action_mailer.rb'
+    end
+
+    def configure_simple_cov_in_specs
+      copy_file 'simple_cov_rspec.rb', 'spec/support/simple_cov.rb'
     end
   end
 end

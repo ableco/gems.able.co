@@ -32,19 +32,42 @@ module Primer
     def primer_customization
       invoke :setup_template_view_structure
       invoke :configure_generators
+      invoke :setup_test_environment
+      # invoke :configure_react
     end
 
     def setup_template_view_structure
-      say 'Setting up template/view structure'
+      say "Setting up template/view structure"
       build :create_templates_directory
       build :remove_layout_from_views
       build :support_templates_and_views_in_application_rb
     end
 
     def configure_generators
-      say 'Configuring generators'
+      say "Configuring generators"
       build :configure_generators
     end
+
+    def setup_test_environment
+      say "Setting up test environment"
+      build :set_up_factory_girl_for_rspec
+      build :generate_rspec
+      build :configure_rspec
+      build :configure_database_cleaner_in_specs
+      build :configure_shoulda_matchers_in_specs
+      build :configure_action_mailer_in_specs
+      build :configure_simple_cov_in_specs
+    end
+
+    def setup_react
+      say "Setting up React"
+      # TODO
+    end
+
+    # def setup_flux? redux?
+    #   say "Setting up React"
+    #   # TODO
+    # end
 
     protected
 
