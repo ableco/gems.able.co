@@ -1,5 +1,6 @@
 require "ablecop"
 require "rails"
+require "deep_merge/rails_compat"
 
 module Ablecop
   # :NODOC:
@@ -30,8 +31,13 @@ module Ablecop
     class ConfigFileError < RuntimeError
     end
 
-    # Internal: Make sure the given file_name exists in the application's
-    # root folder. If it doesn't, copy the default config file to the root.
+    # Internal: Ensure that we have a configuration file for the runners
+    # that we will include in the gem. If an override configuration file
+    # exists in the application's directory (appended with ".application-*"),
+    # we'll merge the override configuration file to our default configuration.
+    # If no override configuration file exists, check if the application's
+    # directory already has our default configuration and copy it over if it
+    # does not exist.
     #
     # file_name - String file name of the config file we want to ensure.
     #
@@ -45,14 +51,25 @@ module Ablecop
     #
     # Returns nil or a ConfigFileError if the process fails.
     def ensure_config_file!(file_name)
-      application_config_file = File.expand_path(".#{file_name}", Rails.root)
       default_config_file = File.expand_path("../../../config/#{file_name}", __FILE__)
-      return if application_config_file_matches_default?(application_config_file, default_config_file)
+      application_config_file = File.expand_path(".#{file_name}", Rails.root)
+      override_config_file = File.expand_path(".application-#{file_name}", Rails.root)
 
-      FileUtils.copy_file(default_config_file, application_config_file)
-      return if application_config_file_matches_default?(application_config_file, default_config_file)
+      # if an override exists, merge it
+      if File.exists?(override_config_file)
+        default_config = YAML.load_file(default_config_file)
+        application_config = YAML.load_file(application_config_file)
+        override_config = YAML.load_file(override_config_file)
 
-      raise ConfigFileError, "Required config file .#{file_name} missing"
+        default_config.ko_deeper_merge!(override_config)
+        return if default_config == application_config
+        File.open(application_config_file, "w") { |f| f.write(default_config.to_yaml) }
+      else
+        return if application_config_file_matches_default?(application_config_file, default_config_file)
+        FileUtils.copy_file(default_config_file, application_config_file)
+      end
+
+      raise ConfigFileError, "Required config file .#{file_name} missing" unless File.exists?(application_config_file)
     end
 
     # Internal: Check to see if the config file in the application's root
