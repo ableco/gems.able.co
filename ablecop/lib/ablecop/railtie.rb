@@ -53,7 +53,7 @@ module Ablecop
     def ensure_config_file!(file_name)
       default_config_file = File.expand_path("../../../config/#{file_name}", __FILE__)
       application_config_file = File.expand_path(".#{file_name}", Rails.root)
-      override_config_file = File.expand_path("config/ablecop/.#{file_name}", Rails.root)
+      override_config_file = File.expand_path("config/ablecop/#{file_name}", Rails.root)
 
       # if an override exists, merge it
       if File.exists?(override_config_file)
