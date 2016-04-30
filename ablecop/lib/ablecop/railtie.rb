@@ -15,9 +15,11 @@ module Ablecop
     # can take advantage of linters that run in their editor for realtime
     # feedback as they're developing.
     initializer "ablecop.initialize" do
-      ensure_config_file!("fasterer.yml")
-      ensure_config_file!("rubocop.yml")
-      ensure_config_file!("scss-lint.yml")
+      configuration_files = %w(fasterer.yml rubocop.yml scss-lint.yml)
+      configuration_files.each do |file_name|
+        ensure_config_file!(file_name)
+        add_to_gitignore(file_name)
+      end
     end
 
     # Expose our rake tasks to the Rails application.
@@ -81,6 +83,26 @@ module Ablecop
     # Returns Boolean, true if the default file matches the application's.
     def application_config_file_matches_default?(application_config_file, default_config_file)
       File.exist?(application_config_file) && FileUtils.compare_file(application_config_file, default_config_file)
+    end
+
+    # Internal: Check if the config file is already in the application's
+    # .gitignore file, and add it if it's not.
+    #
+    # file_name - String file name of the config file we want to include
+    #             in .gitignore.
+    #
+    # Examples
+    #
+    #   # rubocop
+    #   add_to_gitignore("rubocop.yml")
+    #
+    # Returns true if the config file was added to .gitignore.
+    # Returns nil if the config file was already in .gitignore.
+    def add_to_gitignore(file_name)
+      unless File.readlines(".gitignore").any? { |line| line.strip == ".#{file_name}" }
+        File.open(".gitignore", "a") { |f| f.write(".#{file_name}\n") }
+        return true
+      end
     end
   end
 end
