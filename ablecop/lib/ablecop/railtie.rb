@@ -32,10 +32,10 @@ module Ablecop
     end
 
     # Internal: Ensure that we have a configuration file for the runners
-    # that we will include in the gem. If an override configuration file
-    # exists in the application's directory (appended with ".application-*"),
+    # that we will include in the gem. If a configuration file with the same
+    # name exists in the `config/ablecop` directory of the application,
     # we'll merge the override configuration file to our default configuration.
-    # If no override configuration file exists, check if the application's
+    # If no configuration file exists in that directory, check if the application's
     # directory already has our default configuration and copy it over if it
     # does not exist.
     #
@@ -53,7 +53,7 @@ module Ablecop
     def ensure_config_file!(file_name)
       default_config_file = File.expand_path("../../../config/#{file_name}", __FILE__)
       application_config_file = File.expand_path(".#{file_name}", Rails.root)
-      override_config_file = File.expand_path(".application-#{file_name}", Rails.root)
+      override_config_file = File.expand_path("config/ablecop/.#{file_name}", Rails.root)
 
       # if an override exists, merge it
       if File.exists?(override_config_file)
