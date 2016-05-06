@@ -90,15 +90,17 @@ AllCops:
     - 'db/seeds/**/*'
 ```
 
-## CircleCI Usage
+## CircleCI Setup
 
 To enable CircleCI to run ablecop's checks and comment on commits with each
-push, add the following line to your project's `circle.yml`:
+push, add the following configuration to your project's `circle.yml`:
 
 ```yml
 test:
+  pre:
+    - bundle exec rails g ablecop:install
   post:
-    - "RAILS_ENV=development bundle exec rake ablecop:run_on_circleci"
+    - RAILS_ENV=development bundle exec rake ablecop:run_on_circleci
 ```
 
 ## Development
