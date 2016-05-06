@@ -1,9 +1,12 @@
 require "rails/generators"
 require "deep_merge/rails_compat"
+require "yaml"
 
 module Ablecop
   # Public: `rails generate ablecop install`.
   class InstallGenerator < Rails::Generators::Base
+    source_root File.expand_path("../../../../config", __FILE__)
+
     desc "Copy the ablecop config files to the application's root folder."
 
     # Public: When we run the install generator, we copy the config files from
@@ -47,8 +50,8 @@ module Ablecop
     # Returns nil or a ConfigFileError if the process fails.
     def ensure_config_file!(file_name)
       default_config_file = File.expand_path("../../../../config/#{file_name}", __FILE__)
-      application_config_file = File.expand_path(".#{file_name}", Rails.root)
-      override_config_file = File.expand_path("config/ablecop/#{file_name}", Rails.root)
+      application_config_file = File.expand_path(".#{file_name}", destination_root)
+      override_config_file = File.expand_path("config/ablecop/#{file_name}", destination_root)
 
       # If an override exists, merge it.
       if File.exist?(override_config_file)
@@ -57,7 +60,7 @@ module Ablecop
         default_config.ko_deeper_merge!(override_config)
         File.open(application_config_file, "w") { |f| f.write(default_config.to_yaml) }
       else
-        FileUtils.copy_file(default_config_file, application_config_file)
+        copy_file(default_config_file, application_config_file)
       end
 
       raise ConfigFileError, "Required config file .#{file_name} missing" unless File.exist?(application_config_file)
@@ -77,8 +80,10 @@ module Ablecop
     # Returns true if the config file was added to .gitignore.
     # Returns nil if the config file was already in .gitignore.
     def add_to_gitignore(file_name)
-      unless File.readlines(".gitignore").any? { |line| line.strip == ".#{file_name}" }
-        File.open(".gitignore", "a") { |f| f.write(".#{file_name}\n") }
+      gitignore_file = File.expand_path(".gitignore", destination_root)
+      create_file(".gitignore") unless File.exists?(gitignore_file)
+      unless File.readlines(gitignore_file).any? { |line| line.strip == ".#{file_name}" }
+        File.open(gitignore_file, "a") { |f| f.write(".#{file_name}\n") }
         return true
       end
     end
