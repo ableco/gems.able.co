@@ -52,9 +52,9 @@ describe Ablecop::InstallGenerator, type: :generator do
       end
 
       it "creates a .gitignore file if it doesn't exist" do
-        expect(File.exists?(gitignore_file)).to eq(false)
+        expect(File.exist?(gitignore_file)).to eq(false)
         run_generator
-        expect(File.exists?(gitignore_file)).to eq(true)
+        expect(File.exist?(gitignore_file)).to eq(true)
       end
     end
   end

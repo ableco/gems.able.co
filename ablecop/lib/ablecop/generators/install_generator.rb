@@ -81,7 +81,7 @@ module Ablecop
     # Returns nil if the config file was already in .gitignore.
     def add_to_gitignore(file_name)
       gitignore_file = File.expand_path(".gitignore", destination_root)
-      create_file(".gitignore") unless File.exists?(gitignore_file)
+      create_file(".gitignore") unless File.exist?(gitignore_file)
       unless File.readlines(gitignore_file).any? { |line| line.strip == ".#{file_name}" }
         File.open(gitignore_file, "a") { |f| f.write(".#{file_name}\n") }
         return true
