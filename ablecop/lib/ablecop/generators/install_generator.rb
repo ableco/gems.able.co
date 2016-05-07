@@ -55,10 +55,7 @@ module Ablecop
 
       # If an override exists, merge it.
       if File.exist?(override_config_file)
-        default_config = YAML.load_file(default_config_file)
-        override_config = YAML.load_file(override_config_file)
-        default_config.ko_deeper_merge!(override_config)
-        create_file(application_config_file, default_config.to_yaml)
+        create_file(application_config_file, merge_override_config(default_config_file, override_config_file))
       else
         copy_file(default_config_file, application_config_file)
       end
@@ -86,6 +83,31 @@ module Ablecop
         File.open(gitignore_file, "a") { |f| f.write(".#{file_name}\n") }
         return true
       end
+    end
+
+    # Internal: Merge the contents of the override configuration file
+    # in YAML format with the contents of the default.
+    #
+    # default - The default configuration file in the Ablecop gem
+    #           (under config/).
+    # override - The override configuration file in the application
+    #            directory (under config/ablecop in the application's
+    #            root)
+    #
+    # Examples
+    #
+    #   # Rubocop
+    #
+    #   default_config_file = File.expand_path("../../../../config/#{file_name}", __FILE__)
+    #   override_config_file = File.expand_path("config/ablecop/#{file_name}", destination_root)
+    #   merge_override_config(default_config_file, override_config_file)
+    #
+    # Returns a string of the merged configuration in YAML format.
+    def merge_override_config(default, override)
+      default_config = YAML.load_file(default)
+      override_config = YAML.load_file(override)
+      default_config.ko_deeper_merge!(override_config)
+      default_config.to_yaml
     end
   end
 end
