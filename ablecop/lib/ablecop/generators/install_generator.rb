@@ -80,7 +80,7 @@ module Ablecop
       gitignore_file = File.expand_path(".gitignore", destination_root)
       create_file(".gitignore") unless File.exist?(gitignore_file)
       unless File.readlines(gitignore_file).any? { |line| line.strip == ".#{file_name}" }
-        File.open(gitignore_file, "a") { |f| f.write(".#{file_name}\n") }
+        append_to_file(gitignore_file, ".#{file_name}")
         return true
       end
     end
