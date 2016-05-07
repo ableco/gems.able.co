@@ -68,28 +68,27 @@ describe Ablecop::InstallGenerator, type: :generator do
   end
 
   context "overriding default configuration files" do
-    let(:override_dir) { File.expand_path("config/ablecop", destination_root) }
-
     before(:all) do
       prepare_destination
-      FileUtils.mkdir_p(File.expand_path("config/ablecop", destination_root))
+
+      override_dir = File.expand_path("config/ablecop", destination_root)
+      FileUtils.mkdir_p(override_dir)
+      File.open("#{override_dir}/rubocop.yml", "w") { |f| f.write("additional_rubocop_config: config") }
+      File.open("#{override_dir}/fasterer.yml", "w") { |f| f.write("additional_fasterer_config: config") }
+      File.open("#{override_dir}/scss-lint.yml", "w") { |f| f.write("additional_scss_lint_config: config") }
+
+      run_generator
     end
 
     it "updates the configuration file for Rubocop if an override file exists" do
-      File.open("#{override_dir}/rubocop.yml", "w") { |f| f.write("additional_rubocop_config: config") }
-      run_generator
       assert_file ".rubocop.yml", /additional_rubocop_config: config/
     end
 
     it "updates the configuration file for Fasterer if an override file exists" do
-      File.open("#{override_dir}/fasterer.yml", "w") { |f| f.write("additional_fasterer_config: config") }
-      run_generator
       assert_file ".fasterer.yml", /additional_fasterer_config: config/
     end
 
     it "updates the configuration file for scss-lint if an override file exists" do
-      File.open("#{override_dir}/scss-lint.yml", "w") { |f| f.write("additional_scss_lint_config: config") }
-      run_generator
       assert_file ".scss-lint.yml", /additional_scss_lint_config: config/
     end
   end

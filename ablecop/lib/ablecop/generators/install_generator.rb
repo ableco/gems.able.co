@@ -58,7 +58,7 @@ module Ablecop
         default_config = YAML.load_file(default_config_file)
         override_config = YAML.load_file(override_config_file)
         default_config.ko_deeper_merge!(override_config)
-        File.open(application_config_file, "w") { |f| f.write(default_config.to_yaml) }
+        create_file(application_config_file, default_config.to_yaml)
       else
         copy_file(default_config_file, application_config_file)
       end
