@@ -12,7 +12,6 @@ Gem::Specification.new do |spec|
   spec.homepage      = "https://github.com/ableco/gems.able.co/able_cop"
   spec.files         = `git ls-files`.split("\n")
   spec.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
-  spec.executables   = `git ls-files -- bin/*`.split("\n").map { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
   spec.post_install_message = <<-MSG
