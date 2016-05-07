@@ -1,4 +1,5 @@
 require "pronto"
+require "octokit"
 
 desc "Runs ablecop automatted code review on CircleCI"
 namespace :ablecop do
