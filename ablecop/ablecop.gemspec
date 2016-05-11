@@ -51,11 +51,11 @@ MSG
   spec.add_dependency "octokit", "~> 4.3.0"
 
   # Rubocop is a static code analyzer based on our Ruby style guide.
-  spec.add_dependency "rubocop", "~> 0.39.0"
+  spec.add_dependency "rubocop", "~> 0.40.0"
   spec.add_dependency "pronto-rubocop", "~> 0.6.2"
 
   # Brakeman scans for security vulenerabilities.
-  spec.add_dependency "brakeman", "~> 3.2"
+  spec.add_dependency "brakeman", "~> 3.3.0"
   spec.add_dependency "pronto-brakeman", "~> 0.6.0"
 
   # Fasterer will suggest some speed improvements.
