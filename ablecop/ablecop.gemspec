@@ -7,13 +7,33 @@ Gem::Specification.new do |spec|
   spec.version       = Ablecop::VERSION
   spec.authors       = ["Able Engineering"]
   spec.email         = ["engineering@able.co"]
-  spec.summary       = ""
-  spec.description   = ""
-  spec.homepage      = "https://github.com/ableco/gems.able.co/able_cop"
+  spec.summary       = "ablecop - code analysis"
+  spec.description   = "ablecop is a collection of best practices for writing code at Able."
+  spec.homepage      = "https://github.com/ableco/gems.able.co/tree/master/ablecop"
   spec.files         = `git ls-files`.split("\n")
   spec.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
-  spec.executables   = `git ls-files -- bin/*`.split("\n").map { |f| File.basename(f) }
   spec.require_paths = ["lib"]
+
+  spec.post_install_message = <<-MSG
+Ablecop Setup - Local
+===========================================================================
+You can generate the necessary configuration files to run any code
+analysis locally by running the following command:
+
+    bundle exec rails g ablecop:install
+
+Ablecop Setup - CircleCI
+===========================================================================
+To enable CircleCI to run ablecop's checks and comment on commits with each
+push, add the following configuration to your circle.yml configuration:
+
+test:
+  pre:
+    - bundle exec rails g ablecop:install
+  post:
+    - RAILS_ENV=development bundle exec rake ablecop:run_on_circleci
+
+MSG
 
   spec.add_development_dependency "bundler", "~> 1.11"
   spec.add_development_dependency "rake", "~> 10.0"
