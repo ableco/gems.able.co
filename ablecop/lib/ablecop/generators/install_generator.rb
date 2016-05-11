@@ -19,8 +19,9 @@ module Ablecop
       configuration_files = %w(fasterer.yml rubocop.yml scss-lint.yml)
       configuration_files.each do |file_name|
         ensure_config_file!(file_name)
-        add_to_gitignore(file_name)
       end
+
+      add_to_gitignore(configuration_files)
     end
 
     private
@@ -63,26 +64,31 @@ module Ablecop
       raise ConfigFileError, "Required config file .#{file_name} missing" unless File.exist?(application_config_file)
     end
 
-    # Internal: Check if the config file is already in the application's
-    # .gitignore file, and add it if it's not.
+    # Internal: Check if the configuration files in the supplied array is
+    # already in the application's .gitignore file, and add the file names
+    # that do not exist.
     #
-    # file_name - String file name of the config file we want to include
-    #             in .gitignore.
+    # configuration_files - Array of strings of the configuration file
+    #                       names we want to include in .gitignore.
     #
     # Examples
     #
     #   # rubocop
-    #   add_to_gitignore("rubocop.yml")
+    #   add_to_gitignore(["rubocop.yml", "fasterer.yml", "scss-lint.yml"])
     #
-    # Returns true if the config file was added to .gitignore.
-    # Returns nil if the config file was already in .gitignore.
-    def add_to_gitignore(file_name)
+    # Returns nil.
+    def add_to_gitignore(configuration_files)
       gitignore_file = File.expand_path(".gitignore", destination_root)
       create_file(".gitignore") unless File.exist?(gitignore_file)
-      unless File.readlines(gitignore_file).any? { |line| line.strip == ".#{file_name}" }
-        append_to_file(gitignore_file, ".#{file_name}")
-        return true
+
+      configuration_files.reject! do |file_name|
+        File.readlines(gitignore_file).any? { |line| line.strip == ".#{file_name}" }
       end
+
+      return if configuration_files.empty?
+
+      configuration_files.map! { |file_name| ".#{file_name}" }
+      append_to_file(gitignore_file, configuration_files.join("\n"))
     end
 
     # Internal: Merge the contents of the override configuration file
