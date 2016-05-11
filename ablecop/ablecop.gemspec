@@ -27,6 +27,9 @@ Gem::Specification.new do |spec|
   # Pronto posts feedback from its runners to Github.
   spec.add_dependency "pronto", "~> 0.6.0"
 
+  # Octokit is required for updating commits / pull requests.
+  spec.add_dependency "octokit", "~> 4.3.0"
+
   # Rubocop is a static code analyzer based on our Ruby style guide.
   spec.add_dependency "rubocop", "~> 0.39.0"
   spec.add_dependency "pronto-rubocop", "~> 0.6.2"
