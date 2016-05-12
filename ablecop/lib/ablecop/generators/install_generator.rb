@@ -16,7 +16,7 @@ module Ablecop
     # can take advantage of linters that run in their editor for realtime
     # feedback as they're developing.
     def copy_config_files
-      configuration_files = %w(fasterer.yml rubocop.yml scss-lint.yml)
+      configuration_files = %w(.fasterer.yml .rubocop.yml .scss-lint.yml)
       configuration_files.each do |file_name|
         ensure_config_file!(file_name)
       end
@@ -51,7 +51,7 @@ module Ablecop
     # Returns nil or a ConfigFileError if the process fails.
     def ensure_config_file!(file_name)
       default_config_file = File.expand_path("../../../../config/#{file_name}", __FILE__)
-      application_config_file = File.expand_path(".#{file_name}", destination_root)
+      application_config_file = File.expand_path("#{file_name}", destination_root)
       override_config_file = File.expand_path("config/ablecop/#{file_name}", destination_root)
 
       # If an override exists, merge it.
@@ -61,7 +61,7 @@ module Ablecop
         copy_file(default_config_file, application_config_file)
       end
 
-      raise ConfigFileError, "Required config file .#{file_name} missing" unless File.exist?(application_config_file)
+      raise ConfigFileError, "Required config file #{file_name} missing" unless File.exist?(application_config_file)
     end
 
     # Internal: Check if the configuration files in the supplied array is
@@ -82,12 +82,11 @@ module Ablecop
       create_file(".gitignore") unless File.exist?(gitignore_file)
 
       configuration_files.reject! do |file_name|
-        File.readlines(gitignore_file).any? { |line| line.strip == ".#{file_name}" }
+        File.readlines(gitignore_file).any? { |line| line.strip == file_name }
       end
 
       return if configuration_files.empty?
 
-      configuration_files.map! { |file_name| ".#{file_name}" }
       append_to_file(gitignore_file, configuration_files.join("\n"))
     end
 

@@ -73,9 +73,9 @@ describe Ablecop::InstallGenerator, type: :generator do
 
       override_dir = File.expand_path("config/ablecop", destination_root)
       FileUtils.mkdir_p(override_dir)
-      File.open("#{override_dir}/rubocop.yml", "w") { |f| f.write("additional_rubocop_config: config") }
-      File.open("#{override_dir}/fasterer.yml", "w") { |f| f.write("additional_fasterer_config: config") }
-      File.open("#{override_dir}/scss-lint.yml", "w") { |f| f.write("additional_scss_lint_config: config") }
+      File.open("#{override_dir}/.rubocop.yml", "w") { |f| f.write("additional_rubocop_config: config") }
+      File.open("#{override_dir}/.fasterer.yml", "w") { |f| f.write("additional_fasterer_config: config") }
+      File.open("#{override_dir}/.scss-lint.yml", "w") { |f| f.write("additional_scss_lint_config: config") }
 
       run_generator
     end
