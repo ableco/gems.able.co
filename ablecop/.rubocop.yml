@@ -1,2 +1,2 @@
 inherit_from:
-  - ./config/rubocop.yml
+  - ./config/.rubocop.yml
