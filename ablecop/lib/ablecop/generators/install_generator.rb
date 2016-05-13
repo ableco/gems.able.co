@@ -5,6 +5,16 @@ require "yaml"
 module Ablecop
   # Public: `rails generate ablecop install`.
   class InstallGenerator < Rails::Generators::Base
+    # The key in this hash is the filename located under the config/
+    # directory in the root of the gem, and the value is the destination
+    # we want to copy the file to.
+    CONFIGURATION_FILES = {
+      ".fasterer.yml"            => ".",
+      ".rubocop.yml"             => ".",
+      ".scss-lint.yml"           => ".",
+      "rails_best_practices.yml" => "config"
+    }.freeze
+
     source_root File.expand_path("../../../../config", __FILE__)
 
     desc "Copy the ablecop config files to the application's root folder."
@@ -16,12 +26,11 @@ module Ablecop
     # can take advantage of linters that run in their editor for realtime
     # feedback as they're developing.
     def copy_config_files
-      configuration_files = %w(.fasterer.yml .rubocop.yml .scss-lint.yml)
-      configuration_files.each do |file_name|
-        ensure_config_file!(file_name)
+      CONFIGURATION_FILES.each do |file_name, destination|
+        ensure_config_file!(file_name, destination)
       end
 
-      add_to_gitignore(configuration_files)
+      add_files_to_gitignore
     end
 
     private
@@ -49,9 +58,9 @@ module Ablecop
     #   ensure_config_file!("scss-lint.yml")
     #
     # Returns nil or a ConfigFileError if the process fails.
-    def ensure_config_file!(file_name)
+    def ensure_config_file!(file_name, destination)
       default_config_file = File.expand_path("../../../../config/#{file_name}", __FILE__)
-      application_config_file = File.expand_path("#{file_name}", destination_root)
+      application_config_file = File.expand_path("#{destination}/#{file_name}", destination_root)
       override_config_file = File.expand_path("config/ablecop/#{file_name}", destination_root)
 
       # If an override exists, merge it.
@@ -77,17 +86,21 @@ module Ablecop
     #   add_to_gitignore(["rubocop.yml", "fasterer.yml", "scss-lint.yml"])
     #
     # Returns nil.
-    def add_to_gitignore(configuration_files)
+    def add_files_to_gitignore
       gitignore_file = File.expand_path(".gitignore", destination_root)
       create_file(".gitignore") unless File.exist?(gitignore_file)
 
-      configuration_files.reject! do |file_name|
+      files_to_add = CONFIGURATION_FILES.map do |file_name, destination|
+        "#{destination}/#{file_name}".gsub("./", "")
+      end
+
+      files_to_add.reject! do |file_name|
         File.readlines(gitignore_file).any? { |line| line.strip == file_name }
       end
 
-      return if configuration_files.empty?
+      return if files_to_add.empty?
 
-      append_to_file(gitignore_file, configuration_files.join("\n"))
+      append_to_file(gitignore_file, files_to_add.join("\n"))
     end
 
     # Internal: Merge the contents of the override configuration file
