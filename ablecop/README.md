@@ -1,6 +1,6 @@
-# ablecop
+# AbleCop
 
-ablecop is a collection of best practices for writing code at Able. These
+AbleCop is a collection of best practices for writing code at Able. These
 practices are reinforced on the project level through comments on commits
 and pull requests that find violations.
 
@@ -18,7 +18,7 @@ Run `bundle install` to install all the necessary gems.
 
 ## Configuration file setup
 
-ablecop comes with a generator that will copy the default configuration
+AbleCop comes with a generator that will copy the default configuration
 files for each of the gems used for testing. Run the following command:
 
 
@@ -92,7 +92,7 @@ AllCops:
 
 ## CircleCI Setup
 
-To enable CircleCI to run ablecop's checks and comment on commits with each
+To enable CircleCI to run AbleCop's checks and comment on commits with each
 push, add the following configuration to your project's `circle.yml`:
 
 ```yml
@@ -111,4 +111,4 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/ableco/able-cop.
+Bug reports and pull requests are welcome on GitHub at https://github.com/ableco/gems.able.co.

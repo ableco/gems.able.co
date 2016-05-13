@@ -68,4 +68,8 @@ MSG
 
   # Pronto runner for monitoring Rails schema.rb or structure.sql consistency.
   spec.add_dependency "pronto-rails_schema", "~> 0.6.0"
+
+  # rails_best_practices is a code metric tool to check the quality of Rails code.
+  spec.add_dependency "rails_best_practices", "~> 1.16.0"
+  spec.add_dependency "pronto-rails_best_practices", "0.6.0"
 end

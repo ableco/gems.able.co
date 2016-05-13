@@ -21,6 +21,10 @@ describe Ablecop::InstallGenerator, type: :generator do
     it "copies the default configuration file for scss-lint" do
       assert_file ".scss-lint.yml"
     end
+
+    it "copies the default configuration file for Rails Best Practices" do
+      assert_file "config/rails_best_practices.yml"
+    end
   end
 
   context "adding files to .gitignore" do
@@ -29,20 +33,24 @@ describe Ablecop::InstallGenerator, type: :generator do
     context "with existing .gitignore" do
       before(:all) do
         prepare_destination
-        File.open("#{destination_root}/.gitignore", "w") { |f| f.write("test1\ntest2") }
+        File.open("#{destination_root}/.gitignore", "w") { |f| f.write("test1\ntest2\n") }
         run_generator
       end
 
       it "adds '.rubocop.yml' to the project's .gitignore" do
-        expect(File.readlines(gitignore_file)).to include(/.rubocop.yml/)
+        expect(File.readlines(gitignore_file)).to include(/^.rubocop.yml$/)
       end
 
       it "adds '.fasterer.yml' to the project's .gitignore" do
-        expect(File.readlines(gitignore_file)).to include(/.fasterer.yml/)
+        expect(File.readlines(gitignore_file)).to include(/^.fasterer.yml$/)
       end
 
       it "adds '.scss-lint.yml' to the project's .gitignore" do
-        expect(File.readlines(gitignore_file)).to include(/.scss-lint.yml/)
+        expect(File.readlines(gitignore_file)).to include(/^.scss-lint.yml$/)
+      end
+
+      it "adds 'config/rails_best_practices.yml' to the project's .gitignore" do
+        expect(File.readlines(gitignore_file)).to include(%r{^config/rails_best_practices.yml$})
       end
     end
 
@@ -73,9 +81,10 @@ describe Ablecop::InstallGenerator, type: :generator do
 
       override_dir = File.expand_path("config/ablecop", destination_root)
       FileUtils.mkdir_p(override_dir)
-      File.open("#{override_dir}/rubocop.yml", "w") { |f| f.write("additional_rubocop_config: config") }
-      File.open("#{override_dir}/fasterer.yml", "w") { |f| f.write("additional_fasterer_config: config") }
-      File.open("#{override_dir}/scss-lint.yml", "w") { |f| f.write("additional_scss_lint_config: config") }
+      File.open("#{override_dir}/.rubocop.yml", "w") { |f| f.write("additional_rubocop_config: config") }
+      File.open("#{override_dir}/.fasterer.yml", "w") { |f| f.write("additional_fasterer_config: config") }
+      File.open("#{override_dir}/.scss-lint.yml", "w") { |f| f.write("additional_scss_lint_config: config") }
+      File.open("#{override_dir}/rails_best_practices.yml", "w") { |f| f.write("additional_best_practice: config") }
 
       run_generator
     end
@@ -90,6 +99,10 @@ describe Ablecop::InstallGenerator, type: :generator do
 
     it "updates the configuration file for scss-lint if an override file exists" do
       assert_file ".scss-lint.yml", /additional_scss_lint_config: config/
+    end
+
+    it "updates the configuration file for scss-lint if an override file exists" do
+      assert_file "config/rails_best_practices.yml", /additional_best_practice: config/
     end
   end
 end
