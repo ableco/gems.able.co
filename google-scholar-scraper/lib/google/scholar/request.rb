@@ -15,8 +15,8 @@ module Google
 
       def initialize(path=nil, last_user_agent=nil)
         @length = USER_AGENTS.length
-        @url = path.nil? ? "": "#{SCHOLAR_URL + path}"
-        
+        @url = path.nil? ? "" : "#{SCHOLAR_URL}#{path}"
+
         (1..5).map do
           tmp_agent = get_user_agent
           if valid_agent?(tmp_agent, last_user_agent)
@@ -35,10 +35,14 @@ module Google
       end
 
       def send
-        if ENV['QUOTAGUARDSTATIC_URL']
-          RestClient.proxy = ENV['QUOTAGUARDSTATIC_URL']
-        end
-        page = Nokogiri::HTML(RestClient.get(@url, user_agent: self.user_agent))
+        RestClient.proxy = proxy_url if proxy_url
+        Nokogiri::HTML(RestClient.get(@url, user_agent: user_agent))
+      end
+
+      private
+
+      def proxy_url
+        ENV["QUOTAGUARD_URL"] || ENV["QUOTAGUARDSTATIC_URL"]
       end
     end
   end
